@@ -12,7 +12,7 @@ class List extends Component {
       src: './images/first.png',
       editDisabled: false,
       items: [],
-      file: '',
+      file: [],
       filename: 'Choose File',
       uploadedFile:{},
       message:'',
@@ -75,7 +75,7 @@ class List extends Component {
 
   const formData = new FormData();
   formData.append('file', this.state.file);
-    addToList(this.state.Kname,this.state.Kkalor,this.state.file).then(() => {
+    addToList(this.state.Kname,this.state.Kkalor,formData).then(() => {
       this.getAll()
     })
     this.setState({ editDisabled: false })

@@ -155,8 +155,11 @@ users.post('/task', function (req, res) {
     //     console.log(src);
     //   }
     // });
-    console.log(req.body)
-    Task.create(req.body)
+    console.log(req.body.src)
+    Task.create({
+      task_name:req.body.task_name,
+      kalor: req.body.kalor,
+      image: req.body.src.name})
     .then(data => { 
         res.send(data);
       })

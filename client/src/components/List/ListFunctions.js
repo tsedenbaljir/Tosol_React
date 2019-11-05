@@ -10,12 +10,12 @@ export const getList = () => {
     })
 }
 
-export const addToList = (kalor_name, kalor, src) => {
-  console.log(src);
+export const addToList = (task_name, kalor, src) => {
+  // console.log(src);
   return axios.post('/users/task', {
-      task_name: kalor_name,
-      kalor: kalor,
-      image: src.name, 
+      task_name,
+      kalor,
+      src,
   },
     {
       headers: { 'Content-Type': 'application/json' }
