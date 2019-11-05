@@ -35,22 +35,10 @@ class List extends Component {
 
   onChangeFile = event => {
     if (event.target.files[0]) {
-      var filename = event.target.files[0].name;
-      const image = event.target.files[0];
-      const formData = new FormData();
-      formData.append("image", image);
-      fetch("/users/task/upload", {
-        method: "POST",
-        body: formData
-      })
-        .then(response => response.json())
-        .then(response =>
-          this.setState({
-            file: response.path,
-            editDisabled: "disabled",
-            filename
-          })
-        );
+      this.setState({
+        file: event.target.files[0],
+        editDisabled: "disabled",
+      }) 
       //.then(err => console.log(err));
     } else {
       console.log("Something went wrong");
@@ -72,9 +60,19 @@ class List extends Component {
 
   onSubmit = async e => {
     e.preventDefault(); 
-    addToList(this.state.Kname, this.state.Kkalor, this.state.file).then(() => {
-      this.getAll();
-    }); 
+    var src = "sdf";
+    const formData = new FormData();
+    formData.append("image", this.state.file);
+    fetch("/users/task/upload", {
+      method: "POST",
+      body: formData
+    })
+      .then(response => response.json())
+      .then(response =>
+            addToList(this.state.Kname, this.state.Kkalor, response.path).then(() => {
+              this.getAll();
+            })
+      );
     this.setState({ editDisabled: false });
   };
 
