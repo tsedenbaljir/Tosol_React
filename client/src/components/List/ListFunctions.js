@@ -42,12 +42,14 @@ export const deleteItem = term => {
     });
 };
 
-export const updateItem = (term, id) => {
+export const updateItem = (id, kalor_name, kalor, src) => {
   return axios
     .put(
       `/users/task/${id}`,
       {
-        task_name: term
+        task_name: kalor_name,
+        kalor: kalor,
+        image: src
       },
       {
         headers: { "Content-Type": "application/json" }

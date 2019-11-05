@@ -9,7 +9,6 @@ class List extends Component {
       id: "",
       Kname: "",
       Kkalor: "",
-      src: "./images/first.png",
       editDisabled: false,
       items: [],
       file: "",
@@ -56,14 +55,12 @@ class List extends Component {
     } else {
       console.log("Something went wrong");
     }
-  };
+  }
 
   getAll = () => {
     getList().then(data => {
       this.setState(
-        {
-          Kname: "",
-          Kkalor: "",
+        { 
           items: [...data]
         },
         () => {
@@ -77,24 +74,25 @@ class List extends Component {
     e.preventDefault(); 
     addToList(this.state.Kname, this.state.Kkalor, this.state.file).then(() => {
       this.getAll();
-    });
+    }); 
     this.setState({ editDisabled: false });
   };
 
   onUpdate = e => {
     e.preventDefault();
-    updateItem(this.state.Kname, this.state.Kkalor, this.state.id).then(() => {
+    updateItem(this.state.id, this.state.Kname, this.state.Kkalor, this.state.file).then(() => {
       this.getAll();
     });
     this.setState({ editDisabled: false });
   };
 
-  onEdit = (item, itemid, e) => {
+  onEdit = (itemid,Kname, Kkalor, image, e) => {
     e.preventDefault();
     this.setState({
       id: itemid,
-      Kname: item,
-      Kkalor: item
+      Kname: Kname,
+      Kkalor: Kkalor,
+      file: image 
     });
   };
 
@@ -111,27 +109,27 @@ class List extends Component {
         {localStorage.getItem("usertoken") != null && (
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Task Name</label>
+              <label htmlFor="exampleInputEmail1">Хүнсний илчилгүүд</label>
               <div className="row">
                 <div className="col-md-9">
                   <input
                     type="text"
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="name"
                     value={this.state.Kname || ""}
                     onChange={this.onChange.bind(this)}
                   />
                   <input
                     type="number"
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="desc"
                     value={this.state.Kkalor || ""}
                     onChange={this.onChangeKalor.bind(this)}
                   />
                   <input
                     type="file"
                     className="form-control"
-                    id="exampleInputEmail1"
+                    id="file"
                     onChange={this.onChangeFile}
                   />
                 </div>
@@ -140,7 +138,7 @@ class List extends Component {
                     className="btn btn-primary"
                     onClick={this.onUpdate.bind(this)}
                   >
-                    Update
+                    Шинэчлэх
                   </button>
                 </div>
               </div>
@@ -150,7 +148,7 @@ class List extends Component {
               onClick={this.onSubmit.bind(this)}
               className="btn btn-success btn-block"
             >
-              Submit
+              Илгээх
             </button>
           </form>
         )}
@@ -162,7 +160,7 @@ class List extends Component {
                 <td className="text-left">{item.task_name}</td>
                 <td className="text-left">{item.kalor}</td>
                 <td className="text-left">
-                  <img width="50" height="50" src={item.image} />
+                  <img width="50" height="50" src={'uploads/'+item.image} />
                 </td>
                 {/*  */}
                 {localStorage.getItem("usertoken") != null && (
@@ -173,19 +171,20 @@ class List extends Component {
                       disabled={this.state.editDisabled}
                       onClick={this.onEdit.bind(
                         this,
+                        item.id,
                         item.task_name,
                         item.kalor,
-                        item.id
+                        item.image,
                       )}
                     >
-                      Edit
+                      Засах
                     </button>
                     <button
                       href=""
                       className="btn btn-danger"
                       onClick={this.onDelete.bind(this, item.id)}
                     >
-                      Delete
+                      Устгах
                     </button>
                   </td>
                 )}

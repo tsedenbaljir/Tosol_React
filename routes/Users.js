@@ -146,9 +146,15 @@ users.get("/Kalor", (req, res) => {
 // Get all TodoList
 
 users.get("/tasks", function(req, res, next) {
-  Task.findAll()
+  Task.findAll({
+    order: [
+      // [['id','name'], 'desc']
+      ['id', 'desc']
+    ],
+    })
     .then(tasks => {
       res.json(tasks);
+      console.log(tasks)
     })
     .catch(err => {
       res.send("error: " + err);
@@ -180,15 +186,7 @@ users.post("/task", function(req, res) {
     res.json({
       error: "Bad Data"
     });
-  } else {
-    // const file = req.body.image.file;
-    // res.send(file)
-    // file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
-    //   if (err) {
-    //     console.error(err);
-    //     console.log(src);
-    //   }
-    // });
+  } else { 
     console.log(req.body);
     Task.create(req.body)
       .then(data => {
@@ -236,8 +234,12 @@ users.put("/task/:id", function(req, res, next) {
       error: "Bad Data"
     });
   } else {
+    console.log(req.body.task_name)
     Task.update(
-      { task_name: req.body.task_name },
+      { task_name: req.body.task_name,
+        kalor: req.body.kalor,
+        image: req.body.image
+      },
       { where: { id: req.params.id } }
     )
       .then(() => {
