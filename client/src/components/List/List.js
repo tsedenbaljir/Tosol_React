@@ -36,6 +36,8 @@ class List extends Component {
   
   onChangeFile = event => {
     this.setState({ file: event.target.files[0], editDisabled: 'disabled' })
+    console.log(this.state.file)
+
     this.setState({ filename: event.target.files[0].name, editDisabled: 'disabled' })
   }
 
@@ -73,7 +75,7 @@ class List extends Component {
 
   const formData = new FormData();
   formData.append('file', this.state.file);
-    addToList(this.state.Kname,this.state.Kkalor,formData).then(() => {
+    addToList(this.state.Kname,this.state.Kkalor,this.state.file).then(() => {
       this.getAll()
     })
     this.setState({ editDisabled: false })

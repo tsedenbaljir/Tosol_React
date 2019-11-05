@@ -141,7 +141,7 @@ users.get('/task/:id', function (req, res, next) {
 })
 
 users.post('/task', function (req, res) {
-  if (!req.body.post.task_name) {
+  if (!req.body.task_name) {
     res.status(400)
     res.json({
       error: 'Bad Data'
@@ -155,7 +155,8 @@ users.post('/task', function (req, res) {
     //     console.log(src);
     //   }
     // });
-    Task.create(req.body.post)
+    console.log(req.body)
+    Task.create(req.body)
     .then(data => { 
         res.send(data);
       })
@@ -165,20 +166,20 @@ users.post('/task', function (req, res) {
 
   }
 })
-users.post('/upload', (req, res) => {
-  if (req.files === null) {
-    return res.status(400).json({ msg: 'No file uploaded' });
-  }
-  const file = req.files.file;
-console.log(file)
-  file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send(err);
-    }
+// users.post('/upload', (req, res) => {
+//   if (req.files === null) {
+//     return res.status(400).json({ msg: 'No file uploaded' });
+//   }
+//   const file = req.files.file;
+// console.log(file)
+//   file.mv(`${__dirname}/client/public/uploads/${file.name}`, err => {
+//     if (err) {
+//       console.error(err);
+//       return res.status(500).send(err);
+//     }
 
-  });
-});
+//   });
+// });
    
 users.delete('/task/:id', function (req, res, next) {
   Task.destroy({
