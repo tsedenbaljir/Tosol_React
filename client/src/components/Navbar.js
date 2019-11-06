@@ -18,7 +18,7 @@ class Landing extends Component {
         </li>
         <li className="nav-item">
           <Link to="/register" className="nav-link">
-            Register
+            БҮРТГҮҮЛЭХ
           </Link>
         </li>
       </ul>
@@ -28,12 +28,12 @@ class Landing extends Component {
       <ul className="navbar-nav">
         <li className="nav-item">
           <Link to="/profile" className="nav-link">
-            User
+            ХЭРЭГЛЭГЧ
           </Link>
         </li>
         <li className="nav-item">
           <a href="" onClick={this.logOut.bind(this)} className="nav-link">
-            Logout
+            ГАРАХ
           </a>
         </li>
       </ul>
@@ -60,12 +60,12 @@ class Landing extends Component {
           <ul className="navbar-nav">
             <li className="nav-item">
               <Link to="/" className="nav-link">
-                Home
+                НҮҮР
               </Link>
             </li>
             <li className="nav-item">
               <Link to="/Kalor" className="nav-link">
-                Kalor
+                КАЛОР
               </Link>
             </li>
           </ul>

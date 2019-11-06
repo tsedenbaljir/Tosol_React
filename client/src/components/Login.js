@@ -45,7 +45,7 @@ class Login extends Component {
                   type="email"
                   className="form-control"
                   name="email"
-                  placeholder="Enter email"
+                  placeholder="Майл хаяг"
                   value={this.state.email}
                   onChange={this.onChange}
                 />
@@ -56,7 +56,7 @@ class Login extends Component {
                   type="password"
                   className="form-control"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Нууц үг"
                   value={this.state.password}
                   onChange={this.onChange}
                 />

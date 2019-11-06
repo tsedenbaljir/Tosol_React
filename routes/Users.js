@@ -149,7 +149,7 @@ users.get("/tasks", function(req, res, next) {
   Task.findAll({
     order: [
       // [['id','name'], 'desc']
-      ['id', 'desc']
+      ['updated', 'desc']
     ],
     })
     .then(tasks => {

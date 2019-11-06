@@ -15,7 +15,7 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <Route exact path="/" component={Landing} />
-          <div className="container container2">
+          <div className="row" style={{/*float:"left",width:*/}}>
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/profile" component={Profile} />

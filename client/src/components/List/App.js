@@ -15,7 +15,7 @@ class App extends Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col-md-6 mx-auto">
+          <div className="col-md mx-auto">
             <h1 className="text-center">Хүнсний илчилгүүд </h1>
             <List />
           </div>
