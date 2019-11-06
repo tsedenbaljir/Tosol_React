@@ -26,3 +26,11 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* form */
+@media (min-width: 1200px){
+  .container2 {
+    float: left;
+    max-width: 600px;
+  }
+}

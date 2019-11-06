@@ -38,7 +38,7 @@ class List extends Component {
       this.setState({
         file: event.target.files[0],
         editDisabled: "disabled",
-      }) 
+      })
       //.then(err => console.log(err));
     } else {
       console.log("Something went wrong");
@@ -48,7 +48,7 @@ class List extends Component {
   getAll = () => {
     getList().then(data => {
       this.setState(
-        { 
+        {
           items: [...data]
         },
         () => {
@@ -59,8 +59,7 @@ class List extends Component {
   };
 
   onSubmit = async e => {
-    e.preventDefault(); 
-    var src = "sdf";
+    e.preventDefault();
     const formData = new FormData();
     formData.append("image", this.state.file);
     fetch("/users/task/upload", {
@@ -69,28 +68,37 @@ class List extends Component {
     })
       .then(response => response.json())
       .then(response =>
-            addToList(this.state.Kname, this.state.Kkalor, response.path).then(() => {
-              this.getAll();
-            })
+        addToList(this.state.Kname, this.state.Kkalor, response.path).then(() => {
+          this.getAll();
+        })
       );
     this.setState({ editDisabled: false });
   };
 
   onUpdate = e => {
     e.preventDefault();
-    updateItem(this.state.id, this.state.Kname, this.state.Kkalor, this.state.file).then(() => {
-      this.getAll();
-    });
+    const formData = new FormData();
+    formData.append("image", this.state.file);
+    fetch("/users/task/upload", {
+      method: "POST",
+      body: formData
+    })
+      .then(response => response.json())
+      .then(response =>
+        updateItem(this.state.id, this.state.Kname, this.state.Kkalor, response.path).then(() => {
+          this.getAll();
+        })
+      ); 
     this.setState({ editDisabled: false });
   };
 
-  onEdit = (itemid,Kname, Kkalor, image, e) => {
+  onEdit = (itemid, Kname, Kkalor, image, e) => {
     e.preventDefault();
     this.setState({
       id: itemid,
       Kname: Kname,
       Kkalor: Kkalor,
-      file: image 
+      file: image
     });
   };
 
@@ -107,13 +115,14 @@ class List extends Component {
         {localStorage.getItem("usertoken") != null && (
           <form onSubmit={this.onSubmit}>
             <div className="form-group">
-              <label htmlFor="exampleInputEmail1">Хүнсний илчилгүүд</label>
+              <label htmlFor="exampleInputEmail1"></label>
               <div className="row">
                 <div className="col-md-9">
                   <input
                     type="text"
                     className="form-control"
                     id="name"
+                    placeholder="Хүнсний нэр"
                     value={this.state.Kname || ""}
                     onChange={this.onChange.bind(this)}
                   />
@@ -121,6 +130,7 @@ class List extends Component {
                     type="number"
                     className="form-control"
                     id="desc"
+                    placeholder="Агуулагдах Калор"
                     value={this.state.Kkalor || ""}
                     onChange={this.onChangeKalor.bind(this)}
                   />
@@ -128,6 +138,7 @@ class List extends Component {
                     type="file"
                     className="form-control"
                     id="file"
+                    placeholder="Хүнсний зураг"
                     onChange={this.onChangeFile}
                   />
                 </div>
@@ -158,7 +169,7 @@ class List extends Component {
                 <td className="text-left">{item.task_name}</td>
                 <td className="text-left">{item.kalor}</td>
                 <td className="text-left">
-                  <img width="50" height="50" src={'uploads/'+item.image} />
+                  <img width="50" height="50" src={'uploads/' + item.image} />
                 </td>
                 {/*  */}
                 {localStorage.getItem("usertoken") != null && (

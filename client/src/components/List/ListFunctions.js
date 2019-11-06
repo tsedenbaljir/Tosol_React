@@ -28,20 +28,7 @@ export const addToList = (kalor_name, kalor, src) => {
       console.log(response);
     });
 };
-
-export const deleteItem = term => {
-  return axios
-    .delete(`/users/task/${term}`, {
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(function(response) {
-      console.log(response);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-};
-
+ 
 export const updateItem = (id, kalor_name, kalor, src) => {
   return axios
     .put(
@@ -57,5 +44,18 @@ export const updateItem = (id, kalor_name, kalor, src) => {
     )
     .then(function(response) {
       console.log(response);
+    });
+};
+
+export const deleteItem = term => {
+  return axios
+    .delete(`/users/task/${term}`, {
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(function(response) {
+      console.log(response);
+    })
+    .catch(function(error) {
+      console.log(error);
     });
 };
