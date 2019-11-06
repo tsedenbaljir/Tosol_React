@@ -9,35 +9,54 @@ class List extends Component {
       id: "",
       Kname: "",
       Kkalor: "",
-      editDisabled: false,
+      editDisabled: true,
       items: [],
       file: "",
       filename: "Choose File",
       uploadedFile: {},
       message: "",
-      uploadPercentage: 0
+      uploadPercentage: 0,
+      stop: false
     };
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onChangeKalor = this.onChangeKalor.bind(this);
+    this.Cancel = this.Cancel.bind(this);
   }
   componentDidMount() {
     this.getAll();
   }
 
+  Cancel = (e) => {
+    e.preventDefault();
+    this.setState({
+      id: "",
+      Kname: "",
+      Kkalor: "",
+      editDisabled: true,
+      items: [],
+      file: "",
+      filename: "Choose File",
+      uploadedFile: {},
+      message: "",
+      uploadPercentage: 0,
+      stop: true
+    });
+    this.getAll();
+  };
   onChange = event => {
-    this.setState({ Kname: event.target.value, editDisabled: "disabled" });
+    this.setState({ Kname: event.target.value, stop: false });
   };
   onChangeKalor = event => {
-    this.setState({ Kkalor: event.target.value, editDisabled: "disabled" });
+    this.setState({ Kkalor: event.target.value, stop: false });
   };
 
   onChangeFile = event => {
     if (event.target.files[0]) {
       this.setState({
         file: event.target.files[0],
-        editDisabled: "disabled",
+        stop: false
       })
       //.then(err => console.log(err));
     } else {
@@ -59,20 +78,25 @@ class List extends Component {
   };
 
   onSubmit = async e => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", this.state.file);
-    fetch("/users/task/upload", {
-      method: "POST",
-      body: formData
-    })
-      .then(response => response.json())
-      .then(response =>
-        addToList(this.state.Kname, this.state.Kkalor, response.path).then(() => {
-          this.getAll();
-        })
-      );
-    this.setState({ editDisabled: false });
+    if (!this.state.stop) {
+      e.preventDefault();
+      const formData = new FormData();
+      formData.append("image", this.state.file);
+      fetch("/users/task/upload", {
+        method: "POST",
+        body: formData
+      })
+        .then(response => response.json())
+        .then(response =>
+          addToList(this.state.Kname, this.state.Kkalor, response.path).then(() => {
+            this.getAll();
+          })
+        );
+    } else {
+      this.setState({
+        message: "wait a minut ..."
+      })
+    }
   };
 
   onUpdate = e => {
@@ -88,8 +112,7 @@ class List extends Component {
         updateItem(this.state.id, this.state.Kname, this.state.Kkalor, response.path).then(() => {
           this.getAll();
         })
-      ); 
-    this.setState({ editDisabled: false });
+      );
   };
 
   onEdit = (itemid, Kname, Kkalor, image, e) => {
@@ -98,7 +121,8 @@ class List extends Component {
       id: itemid,
       Kname: Kname,
       Kkalor: Kkalor,
-      file: image
+      file: image,
+      editDisabled: false
     });
   };
 
@@ -136,29 +160,30 @@ class List extends Component {
                   />
                   <input
                     type="file"
-                    className="form-control"
                     id="file"
-                    placeholder="Хүнсний зураг"
                     onChange={this.onChangeFile}
+                    style={{display:"none"}}
                   />
+                  <label className="form-control"  for="file">Зураг сонгоно уу.</label>
                 </div>
                 <div className="col-md-2">
                   <button
                     className="btn btn-primary"
-                    onClick={this.onUpdate.bind(this)}
-                  >
-                    Шинэчлэх
-                  </button>
+                    onClick={this.Cancel.bind(this)}
+                  >Болих</button>
                 </div>
               </div>
             </div>
-            <button
+            {this.state.editDisabled ? <button
               type="submit"
               onClick={this.onSubmit.bind(this)}
               className="btn btn-success btn-block"
-            >
-              Илгээх
-            </button>
+            >Илгээх</button>
+              : <button
+                type="submit"
+                onClick={this.onUpdate.bind(this)}
+                className="btn btn-success btn-block"
+              >Шинэчлэх</button>}
           </form>
         )}
         {/*  */}
@@ -177,24 +202,16 @@ class List extends Component {
                     <button
                       href=""
                       className="btn btn-info mr-1"
-                      disabled={this.state.editDisabled}
+                      // disabled={this.state.editDisabled}
                       onClick={this.onEdit.bind(
-                        this,
-                        item.id,
-                        item.task_name,
-                        item.kalor,
-                        item.image,
+                        this, item.id, item.task_name, item.kalor, item.image,
                       )}
-                    >
-                      Засах
-                    </button>
+                    >Засах</button>
                     <button
                       href=""
                       className="btn btn-danger"
                       onClick={this.onDelete.bind(this, item.id)}
-                    >
-                      Устгах
-                    </button>
+                    >Устгах</button>
                   </td>
                 )}
                 {/*  */}
