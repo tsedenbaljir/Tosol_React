@@ -6,7 +6,9 @@ import Landing from './components/Landing'
 import Login from './components/Login'
 import Register from './components/Register'
 import Profile from './components/Profile'
-import Kalor from './components/List/App'
+import Kalor from './components/admin/List/App'
+import Post from './components/admin/Post/App'
+import PostSingle from './components/admin/Post/Home/singlePost'
 
 class App extends Component {
   render() {
@@ -20,6 +22,8 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/Kalor" component={Kalor} />
+            <Route exact path="/Post" component={Post} />
+            <Route exact path="/Post/:id" component={PostSingle} />
           </div>
         </div>
       </Router>

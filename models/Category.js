@@ -2,24 +2,18 @@ const Sequelize = require('sequelize')
 const db = require('../database/db.js')
 
 module.exports = db.sequelize.define(
-  'tbl_tasks',
+  'categories',
   {
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true
     },
-    category_id: {
-      type: Sequelize.INTEGER
-    },
-    task_name: {
+    kkal_id: {
       type: Sequelize.STRING
     },
-    kalor: {
+    name: {
       type: Sequelize.INTEGER
-    },
-    image: {
-      type: Sequelize.STRING
     },
     created: {
       type: Sequelize.DATE,

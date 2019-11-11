@@ -18,13 +18,14 @@ module.exports = db.sequelize.define(
     image: {
       type: Sequelize.STRING
     },
-    // password: {
-    //   type: Sequelize.STRING
-    // },
-    // created: {
-    //   type: Sequelize.DATE,
-    //   defaultValue: Sequelize.NOW
-    // }
+    password: {
+      type: Sequelize.STRING,
+      defaultValue: Sequelize.NOW
+    },
+    created: {
+      type: Sequelize.DATE,
+      defaultValue: Sequelize.NOW
+    }
   },
   {
     timestamps: false

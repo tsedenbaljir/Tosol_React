@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const getList = () => {
+export const getPosts = () => {
   return axios
-    .get("/users/tasks", {
+    .get("/post/posts", {
       headers: { "Content-Type": "application/json" }
     })
     .then(res => {
@@ -10,15 +10,28 @@ export const getList = () => {
     });
 };
 
-export const addToList = (kalor_name, kalor, src) => {
+
+export const getSinglePost = (id) => {
+  console.log(id)
+  return axios
+    .get(`/post/posts/${id}`,{
+        headers: { "Content-Type": "application/json" }
+      }
+    )
+    .then(res => {
+      return res.data;
+    });
+};
+
+export const addToList = (title, src, data) => {
   console.log(src);
   return axios
     .post(
-      "/users/task",
+      "/post/posts",
       {
-        task_name: kalor_name,
-        kalor: kalor,
-        image: src
+        title,
+        src,
+        data
       },
       {
         headers: { "Content-Type": "application/json" }
@@ -29,14 +42,14 @@ export const addToList = (kalor_name, kalor, src) => {
     });
 };
  
-export const updateItem = (id, kalor_name, kalor, src) => {
+export const updateItem = (id, title, src, data) => {
   return axios
     .put(
-      `/users/task/${id}`,
+      `/post/posts/${id}`,
       {
-        task_name: kalor_name,
-        kalor: kalor,
-        image: src
+        title,
+        src,
+        data
       },
       {
         headers: { "Content-Type": "application/json" }
@@ -49,7 +62,7 @@ export const updateItem = (id, kalor_name, kalor, src) => {
 
 export const deleteItem = term => {
   return axios
-    .delete(`/users/task/${term}`, {
+    .delete(`/post/posts/${term}`, {
       headers: { "Content-Type": "application/json" }
     })
     .then(function(response) {

@@ -7,7 +7,8 @@ const bcrypt = require("bcrypt");
 const User = require("../models/User");
 const Kalor = require("../models/Kalor");
 const Task = require("../models/Task");
-const path = "./client/public/uploads/";
+const Category = require("../models/Category");
+const path = "./client/public/uploads/list_img";
 const multer = require("multer");
 checkExtension = file => {
   // this function gets the filename extension by determining mimetype. To be exanded to support others, for example .jpeg or .tiff
@@ -37,7 +38,6 @@ const upload = multer({
 require("dotenv").config();
 users.use(cors());
 
-// process.env.SECRET_KEY = 'secret'
 
 users.post("/register", (req, res) => {
   const today = new Date();
@@ -109,15 +109,13 @@ users.get("/profile", (req, res) => {
     where: {
       id: decoded.id
     }
-  })
-    .then(user => {
+  }).then(user => {
       if (user) {
         res.json(user);
       } else {
         res.send("User does not exist");
       }
-    })
-    .catch(err => {
+    }).catch(err => {
       res.send("error: " + err);
     });
 });
@@ -126,20 +124,17 @@ users.get("/Kalor", (req, res) => {
     req.headers["authorization"],
     process.env.SECRET_KEY
   );
-
   Kalor.findOne({
     where: {
       id: decoded.id
     }
-  })
-    .then(kal => {
+  }).then(kal => {
       if (kal) {
         res.json(kal);
       } else {
         res.send("User does not exist");
       }
-    })
-    .catch(err => {
+    }).catch(err => {
       res.send("error: " + err);
     });
 });
@@ -151,12 +146,24 @@ users.get("/tasks", function(req, res, next) {
       // [['id','name'], 'desc']
       ['updated', 'desc']
     ],
-    })
-    .then(tasks => {
+    }).then(tasks => {
       res.json(tasks);
       console.log(tasks)
-    })
-    .catch(err => {
+    }).catch(err => {
+      res.send("error: " + err);
+    });
+});
+
+users.get("/category", function(req, res, next) {
+  Category.findAll({
+    order: [
+      // [['id','name'], 'desc']
+      ['updated', 'desc']
+    ],
+    }).then(tasks => {
+      res.json(tasks);
+      console.log(tasks)
+    }).catch(err => {
       res.send("error: " + err);
     });
 });
@@ -166,15 +173,13 @@ users.get("/task/:id", function(req, res, next) {
     where: {
       id: req.params.id
     }
-  })
-    .then(task => {
+  }).then(task => {
       if (task) {
         res.json(task);
       } else {
         res.send("Task does not exist");
       }
-    })
-    .catch(err => {
+    }).catch(err => {
       res.send("error: " + err);
     });
 });
@@ -190,11 +195,12 @@ users.post("/task", function(req, res) {
     console.log(req.body);
     Task.create(req.body)
       .then(data => {
+
         res.send(data);
-      })
-      .catch(err => {
-        ``;
+
+      }).catch(err => {
         res.json("error: " + err);
+        console.log(err);
       });
   }
 });
@@ -218,11 +224,9 @@ users.delete("/task/:id", function(req, res, next) {
     where: {
       id: req.params.id
     }
-  })
-    .then(() => {
+  }).then(() => {
       res.json({ status: "Task Deleted!" });
-    })
-    .catch(err => {
+    }).catch(err => {
       res.send("error: " + err);
     });
 });
@@ -241,11 +245,9 @@ users.put("/task/:id", function(req, res, next) {
         image: req.body.image
       },
       { where: { id: req.params.id } }
-    )
-      .then(() => {
+    ).then(() => {
         res.json({ status: "Task Updated!" });
-      })
-      .error(err => handleError(err));
+      }).error(err => handleError(err));
   }
 });
 

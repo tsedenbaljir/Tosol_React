@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css'
-import List from './List'
+import Post from './Post'
 
 class App extends Component {
   constructor(props) {
@@ -16,8 +16,8 @@ class App extends Component {
       <div className="container">
         <div className="row">
           <div className="col-md mx-auto">
-            <h1 className="text-center">Хүнсний илчилгүүд </h1>
-            <List />
+            <h1 className="text-center">Posts</h1>
+            <Post />
           </div>
         </div>
       </div>
