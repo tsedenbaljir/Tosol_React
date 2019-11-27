@@ -17,14 +17,12 @@ class App extends Component {
         <div className="App">
           <Navbar />
           <Route exact path="/" component={Landing} />
-          <div className="row" style={{/*float:"left",width:*/}}>
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/Kalor" component={Kalor} />
             <Route exact path="/Post" component={Post} />
             <Route exact path="/Post/:id" component={PostSingle} />
-          </div>
         </div>
       </Router>
     )

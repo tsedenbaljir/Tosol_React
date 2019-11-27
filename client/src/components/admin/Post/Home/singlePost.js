@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { getSinglePost } from "../PostFunctions";
+import Rows from "../rows/index";
 
 class singlePost extends Component {
 
@@ -18,7 +19,9 @@ class singlePost extends Component {
                 {
                     title: data.title,
                     src: data.src,
-                    data: data.data
+                    data: data.data,
+                    created: data.created,
+                    updated: data.updated
                 },
                 () => {
                     console.log(this.state.items);
@@ -28,24 +31,39 @@ class singlePost extends Component {
     };
 
     render() {
-        return (
-            <div className="container">
-                <div className="jumbotron mt-5">
-                    <div className="col-sm-12 mx-auto">
-                        {/* <h1 className="text-center">WELCOME</h1> */}
-                        <div class="article-detail">
-                            <h2>{this.state.title}</h2>
-                            <div class="img-holder">
-                                <img src={'/uploads/posts_img/' + this.state.src} />
-                            </div>
-                            <div class="article-body">
-                                {this.state.data}
+        const { title, data, src, created } = this.state;
+        if (title != null && data != null && src != null && created != null) {
+            return (
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-10 mx-auto">
+                            <div class="article-detail">
+                                <h2>{title}</h2>
+                                <div class="img-holder">
+                                    <img src={'/uploads/posts_img/' + src} style={{ width: "100%" }} />
+                                </div>
+                                <div class="article-body">
+                                    {data}
+                                    {created}
+                                </div>
                             </div>
                         </div>
+                        <Rows />
                     </div>
                 </div>
-            </div>
-        )
+            )
+        } else {
+            return (
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-10 mx-auto">
+                            <h1 className="mt-5 mx-auto">Энэ мэдээлэл олдсонгүй.</h1>
+                        </div>
+                        <Rows />
+                    </div>
+                </div>
+            )
+        }
     }
 }
 

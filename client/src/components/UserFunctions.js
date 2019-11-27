@@ -9,7 +9,7 @@ export const register = newUser => {
       password: newUser.password
     })
     .then(response => {
-      console.log('Registered')
+      // console.log('Registered')
     })
 }
 
@@ -20,6 +20,8 @@ export const login = user => {
       password: user.password
     })
     .then(response => {
+      console.log(response)
+      console.log(response.data)
       localStorage.setItem('usertoken', response.data)
       return response.data
     })

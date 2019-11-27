@@ -11,7 +11,6 @@ const Category = require("../models/Category");
 const path = "./client/public/uploads/list_img";
 const multer = require("multer");
 checkExtension = file => {
-  // this function gets the filename extension by determining mimetype. To be exanded to support others, for example .jpeg or .tiff
   var res = "";
   if (file.mimetype === "image/jpeg") res = ".jpg";
   if (file.mimetype === "image/png") res = ".png";
@@ -88,7 +87,7 @@ users.post("/login", (req, res) => {
           let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
             expiresIn: 1440
           });
-          res.send(token);
+          res.json(token);
         }
       } else {
         res.status(400).json({ error: "User does not exist" });
@@ -148,7 +147,7 @@ users.get("/tasks", function(req, res, next) {
     ],
     }).then(tasks => {
       res.json(tasks);
-      console.log(tasks)
+      // console.log(tasks)
     }).catch(err => {
       res.send("error: " + err);
     });
@@ -162,7 +161,7 @@ users.get("/category", function(req, res, next) {
     ],
     }).then(tasks => {
       res.json(tasks);
-      console.log(tasks)
+      // console.log(tasks)
     }).catch(err => {
       res.send("error: " + err);
     });
@@ -185,14 +184,14 @@ users.get("/task/:id", function(req, res, next) {
 });
 
 users.post("/task", function(req, res) {
-  console.log(req);
+  // console.log(req);
   if (!req.body.task_name) {
     res.status(400);
     res.json({
       error: "Bad Data"
     });
   } else { 
-    console.log(req.body);
+    // console.log(req.body);
     Task.create(req.body)
       .then(data => {
 
@@ -200,14 +199,14 @@ users.post("/task", function(req, res) {
 
       }).catch(err => {
         res.json("error: " + err);
-        console.log(err);
+        // console.log(err);
       });
   }
 });
 users.post("/task/upload", (req, res) => {
   upload(req, res, err => {
     if (err) {
-      console.log(err);
+      // console.log(err);
       return res.json({
         status: false
       });
@@ -238,7 +237,7 @@ users.put("/task/:id", function(req, res, next) {
       error: "Bad Data"
     });
   } else {
-    console.log(req.body.task_name)
+    // console.log(req.body.task_name)
     Task.update(
       { task_name: req.body.task_name,
         kalor: req.body.kalor,

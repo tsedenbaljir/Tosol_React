@@ -3,6 +3,8 @@ const users = express.Router();
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const fs = require('fs');
+const path2 = './client/public/uploads/posts_img/';
 
 const User = require("../models/User");
 const Kalor = require("../models/Kalor");
@@ -108,12 +110,30 @@ users.post("/posts/upload", (req, res) => {
   });
 });
 users.delete("/posts/:id", function(req, res, next) {
+  Post.findOne({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(posts => {
+      if (posts != null) {
+        fs.unlink(path2+posts.src, (err) => {
+          if (err) {
+            console.error(err)
+            return
+          }
+          //file removed
+        })
+      } else {
+        res.send("posts does not exist");
+      }
+    })
   Post.destroy({
     where: {
       id: req.params.id
     }
   })
-    .then(() => {
+    .then(() => { 
       res.json({ status: "posts Deleted!" });
     })
     .catch(err => {

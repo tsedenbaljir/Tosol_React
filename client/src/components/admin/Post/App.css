@@ -28,7 +28,7 @@
 } 
 /* table css */
 td {
-  max-width: 100px;
+  max-width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

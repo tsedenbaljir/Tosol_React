@@ -40,7 +40,7 @@ class Landing extends Component {
     )
 
     return (
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark rounded">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <button
           className="navbar-toggler"
           type="button"
@@ -62,12 +62,7 @@ class Landing extends Component {
               <Link to="/" className="nav-link">
                 НҮҮР
               </Link>
-            </li>
-            <li className="nav-item">
-              <Link to="/Post" className="nav-link">
-                Post
-              </Link>
-            </li>
+            </li> 
             <li className="nav-item">
               <Link to="/Kalor" className="nav-link">
                 КАЛОР

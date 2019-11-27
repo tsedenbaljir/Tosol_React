@@ -13,9 +13,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container col-md-12">
         <div className="row">
-          <div className="col-md mx-auto">
+          <div className="col-md mx-auto col-md-12">
             <h1 className="text-center">Хүнсний илчэлгүүд </h1>
             <List />
           </div>

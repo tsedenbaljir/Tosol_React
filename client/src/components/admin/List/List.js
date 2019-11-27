@@ -1,7 +1,7 @@
+// https://github.com/pubnub/pubnub-react
 import React, { Component, useState } from "react";
 import decode from 'jwt-decode'
 import { getList, getCagetory, addToList, deleteItem, updateItem } from "./ListFunctions";
-import axios from "axios";
 
 class List extends Component {
   constructor() {
@@ -83,7 +83,7 @@ class List extends Component {
           items: [...data]
         },
         () => {
-          console.log(this.state.items);
+          // console.log(this.state.items);
         }
       );
     });
@@ -96,7 +96,7 @@ class List extends Component {
           category: [...data]
         },
         () => {
-          console.log(this.state.category);
+          // console.log(this.state.category);
         }
       );
     });
@@ -129,7 +129,6 @@ class List extends Component {
 
   onUpdate = e => {
     if (this.state.file != null) {
-      console.log(this.state.file)
       e.preventDefault();
       const formData = new FormData();
       formData.append("image", this.state.file);
@@ -167,7 +166,6 @@ class List extends Component {
   };
 
   selectChange(event) {
-    console.log(this.state.selectValue)
     this.setState({ selectValue: event.target.value });
   }
   render() {
@@ -175,7 +173,12 @@ class List extends Component {
       <div className="col-md-12">
         {/*  */}
         <div className="row">
-          <div className="mx-auto col-md-9">
+          <div className="mx-auto col-ms-3">
+            {this.state.users.users_type == "admin" && localStorage.getItem("usertoken") != null && (
+              <a href="/Post">Нийтлэл оруулах</a>
+            )}
+          </div>
+          <div className="mx-auto col-md-6">
             <div className="row">
               {this.state.users.users_type == "admin" && localStorage.getItem("usertoken") != null && (
                 <div className="mx-auto col-md-12">
@@ -187,7 +190,7 @@ class List extends Component {
                           <select className="col-md-12" value={this.state.selectValue} onChange={this.selectChange}>
                             <option value='0'>Ангилал сонгоно уу</option>
                             {this.state.category.map((cat, item) => (
-                              <option value={cat.id}>{cat.name}</option>
+                              <option key={item} value={cat.id}>{cat.name}</option>
                             ))}
                           </select>
                           <input
@@ -215,8 +218,8 @@ class List extends Component {
                             style={{ display: "none" }}
                             required
                           />
-                          <label className="form-control" for="file">
-                            <i class="fas fa-cloud-upload-alt" aria-hidden="true"></i>
+                          <label className="form-control" htmlFor="file">
+                            <i className="fas fa-cloud-upload-alt" aria-hidden="true"></i>
                             Зураг сонгоно уу.</label>
                           {!this.state.editDisabled ?
                             <button className="btn btn-primary btn-block"
@@ -242,8 +245,8 @@ class List extends Component {
               <table className="mx-auto col-md-12">
                 <tbody className="table-bordered">
                   <tr>
-                    <td className="text-left col-4"><h3>Хүнсний нэр</h3></td>
-                    <td className="text-center"><h3>Агуулагдах илчлэг</h3></td>
+                    <td className="text-left"><h3>Хүнсний нэр</h3></td>
+                    <td className="text-center col-4"><h3>Агуулагдах илчлэг</h3></td>
                     <td className="text-center col-4"><h3>Зураг</h3></td>
                     {this.state.users.users_type == "admin" && localStorage.getItem("usertoken") != null && (
                       <td className="text-right col-4"></td>
@@ -251,8 +254,8 @@ class List extends Component {
                   </tr>
                   {this.state.items.map((item, index) => (
                     <tr key={index}>
-                      <td className="text-left col-4">{item.task_name}</td>
-                      <td>{item.kalor}</td>
+                      <td className="text-left">{item.task_name}</td>
+                      <td className="text-left col-4">{item.kalor}</td>
                       <td className="text-center col-4">
                         <img width="150" height="auto" src={'uploads/list_img/' + item.image} />
                       </td>
@@ -260,19 +263,17 @@ class List extends Component {
                       {this.state.users.users_type == "admin" && localStorage.getItem("usertoken") != null && (
                         <td className="text-right">
                           <button
-                            href=""
                             className="btn btn-info mr-1"
                             onClick={this.onEdit.bind(
                               this, item.id, item.task_name, item.kalor, item.image,
                             )}
                           >Засах</button>
-                          <td>
+                          <div>
                             <button
-                              href=""
-                              className="btn btn-danger"
+                              className="btn btn-danger mr-1"
                               onClick={this.onDelete.bind(this, item.id)}
                             >Устгах</button>
-                          </td>
+                          </div>
                         </td>
                       )}
                       {/*  */}

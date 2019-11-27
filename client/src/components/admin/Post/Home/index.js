@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { getPosts } from "../PostFunctions";
+import Rows from "../rows/index";
 
 class index extends Component {
     constructor() {
@@ -45,29 +46,30 @@ class index extends Component {
         };
         return (
             <div className="container">
-                <div className="jumbotron mt-5">
-                    <div className="col-sm-12 mx-auto">
-                        <h1 className="text-center">WELCOME</h1>
+                <div className="row">
+                    <div className="col-sm-10 mx-auto">
                         {this.state.items.map((item, index) => (
-                            <a key={index} class="font lightbox" href="/bv/15">
+                            <a key={index} class="font lightbox" href={"Post/" + item.id}>
                                 <div class="row article-brief" style={postStyle} >
                                     <div class="col-sm-3 article-thumb">
                                         <div class="rel">
-                                        <img class="col-sm-12 article-thumb" style={postImg} src={'uploads/posts_img/' + item.src} />
+                                            <img class="col-sm-12 article-thumb" style={postImg} src={'uploads/posts_img/' + item.src} />
                                         </div>
                                     </div>
                                     <div class="col-sm-9 article-text text-left">
                                         <div class="article-title"><h4 style={{ textTransform: 'uppercase' }}>{item.title}</h4></div>
                                         <div class="brief">{item.data}</div>
+                                        {/* <div class="brief text-right">{item.created.substring(0, 10)}</div> */}
                                     </div>
                                 </div>
                             </a>
                         ))}
                     </div>
+                    <Rows/>
                 </div>
             </div>
         )
     }
 }
 
-export default index
+export default index;
